@@ -35,6 +35,14 @@ resource "azurerm_app_service_plan" "my_web_plan" {
   kind = "FunctionApp"
 }
 
+resource "azurerm_service_plan" "my_web_plan" {
+  name = var.function_app_plan
+  location = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku_name = "Y1"
+  os_type = "Linux"
+}
+
 #function app
 resource "azurerm_linux_function_app" "my_function_app" {
   name = var.function_app_name
@@ -46,7 +54,7 @@ resource "azurerm_linux_function_app" "my_function_app" {
 
   site_config {
     application_stack {
-      node_version = "22 LTS"
+      node_version = "20"
     }
   }
 
