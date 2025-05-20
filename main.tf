@@ -4,7 +4,7 @@ resource "random_pet" "rg_name" {
 
 # my resource group
 resource "azurerm_resource_group" "rg" {
-  name = random_pet.rg_name
+  name = random_pet.rg_name.id
   location = var.resource_group_location
 }
 
@@ -14,7 +14,7 @@ resource "random_pet" "sa_name" {
 
 #storage account
 resource "azurerm_storage_account" "my_storage_account" {
-  name = random_pet.sa_name
+  name = random_pet.sa_name.id
   resource_group_name = azurerm_resource_group.rg.name
   location = azurerm_resource_group.rg.location
   account_replication_type = "LRS"
@@ -22,19 +22,6 @@ resource "azurerm_storage_account" "my_storage_account" {
 }
 
 #azure plan
-resource "azurerm_app_service_plan" "my_web_plan" {
-  name = var.function_app_plan
-  location = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.location
-
-  sku {
-    tier = "Dynamic"
-    size = "Y1"
-  }
-
-  kind = "FunctionApp"
-}
-
 resource "azurerm_service_plan" "my_web_plan" {
   name = var.function_app_plan
   location = azurerm_resource_group.rg.location
