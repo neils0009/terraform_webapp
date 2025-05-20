@@ -1,0 +1,45 @@
+# Local .terraform directories
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+
+# Exclude Terraform plan output files
+*.tfplan
+
+# Sensitive variable files (don't commit actual .tfvars with secrets)
+*.tfvars
+*.tfvars.json
+
+# Ignore override files as they are not recommended for use
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform provider lock file (optional, keep if you want to pin providers)
+# Comment out the next line if you want to commit this file
+#.terraform.lock.hcl
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+
+# macOS specific
+.DS_Store
+._*
+
+# Linux specific
+*~
+
+# Windows specific
+Thumbs.db
+
+#extra files for this repository
+.ssh
+*.backup

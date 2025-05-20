@@ -1,0 +1,56 @@
+resource "random_pet" "rg_name" {
+  prefix = var.resource_group_name_prefix
+}
+
+# my resource group
+resource "azurerm_resource_group" "rg" {
+  name = random_pet.rg_name
+  location = var.resource_group_location
+}
+
+resource "random_pet" "sa_name" {
+  prefix = var.resource_group_name_prefix
+}
+
+#storage account
+resource "azurerm_storage_account" "my_storage_account" {
+  name = random_pet.sa_name
+  resource_group_name = azurerm_resource_group.rg.name
+  location = azurerm_resource_group.rg.location
+  account_replication_type = "LRS"
+  account_tier = "Standard"
+}
+
+#azure plan
+resource "azurerm_app_service_plan" "my_web_plan" {
+  name = var.function_app_plan
+  location = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.location
+
+  sku {
+    tier = "Dynamic"
+    size = "Y1"
+  }
+
+  kind = "FunctionApp"
+}
+
+#function app
+resource "azurerm_linux_function_app" "my_function_app" {
+  name = var.function_app_name
+  location = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  service_plan_id = azurerm_app_service_plan.my_web_plan.id
+  storage_account_name = azurerm_storage_account.my_storage_account.name
+  storage_account_access_key = azurerm_storage_account.my_storage_account.primary_access_key
+
+  site_config {
+    application_stack {
+      node_version = "22 LTS"
+    }
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+}
