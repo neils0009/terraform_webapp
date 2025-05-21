@@ -41,4 +41,4 @@ override.tf.json
 Thumbs.db
 
 #extra files for this repository
-.ssh
+terraform.tfvar
