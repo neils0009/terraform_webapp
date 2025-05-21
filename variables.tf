@@ -33,3 +33,8 @@ variable "web_app_name" {
   default = "webAppUploadShare009"
   description = "The web app name"
 }
+
+variable "my_sub_id" {
+  type = string
+  description = "Add the subscription id"
+}
